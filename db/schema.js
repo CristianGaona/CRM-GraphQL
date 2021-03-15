@@ -4,22 +4,9 @@ const { gql } = require('apollo-server');
 // Los inputs puede implementarse en los queries o resolvers
 const typeDefs = gql`
 
-    type Curso{
-        titulo: String
-        tecnologia: String
-    }
-    type Tecnologia {
-        tecnologia: String
-    }
-
-    input CursoInput {
-        tecnologia: String
-    }
-
-    type Query{
-        obtenerCursos(input: CursoInput!) : [Curso]
-        obtenerTecnologia : [Tecnologia]
-    }
+   type Query{
+       obtenerCurso: String
+   }
 `;
 
 // Exportar archivo para llamarlos dentro de otros directorios/archivos

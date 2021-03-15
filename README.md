@@ -6,3 +6,4 @@ npm i -D apollo-server
 npm i -D nodemon
 ## Dependencia necesaria para que se ejecute el servidor de Apollo
 npm install apollo-client apollo-cache-inmemory apollo-link-http react-apollo graphql-tag graphql --save
+## ORM Mongoose y dotenv (Crear variables de entorno en desarrollo y producción) 
