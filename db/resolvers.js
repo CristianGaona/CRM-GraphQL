@@ -1,6 +1,5 @@
-
-
-
+// Importaciones
+const Usuario = require('../models/Usuario');
 // Resolvers
 // 1. _ objetos retornados por el resolver padre (consultas anidadas)
 // 2. {input} argumentos
@@ -9,7 +8,34 @@
 const resolvers = {
     Query: {
       obtenerCurso: () => "Hola"
+    },
+    Mutation:{
+        nuevoUsuario: async (_, { input }) => {
+            const {email, password} = input; //distructuring
+
+            // Revisar si el usuario esta registrado
+            const existeUsuario = await Usuario.findOne({email});
+            console.log(existeUsuario);
+            if (existeUsuario){
+                throw new Error('El usuario ya esta registrado');
+            }
+
+
+            // Hashear password
+
+
+            // Guardar en la base de datos
+            try {
+                const  usuario = new Usuario(input);
+                usuario.save(); // guardarlo
+                return usuario;
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
     }
   };
 
+  // Exportar archivo
 module.exports = resolvers;
