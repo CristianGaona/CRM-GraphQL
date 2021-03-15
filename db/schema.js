@@ -1,6 +1,7 @@
 const { gql } = require('apollo-server');
 
 // Schema
+// Los inputs puede implementarse en los queries o resolvers
 const typeDefs = gql`
 
     type Curso{
@@ -11,8 +12,12 @@ const typeDefs = gql`
         tecnologia: String
     }
 
+    input CursoInput {
+        tecnologia: String
+    }
+
     type Query{
-        obtenerCursos : [Curso]
+        obtenerCursos(input: CursoInput!) : [Curso]
         obtenerTecnologia : [Tecnologia]
     }
 `;
