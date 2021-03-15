@@ -22,11 +22,12 @@ const cursos = [
 // Resolvers
 // 1. _ objetos retornados por el resolver padre (consultas anidadas)
 // 2. {input} argumentos
-// 3. context objeto que se comparte entre todos los resolvers
-// 4. info sobre la consulta actual
+// 3. context (ctx) objeto que se comparte entre todos los resolvers
+// 4. infotmación (info) sobre la consulta actual
 const resolvers = {
     Query: {
       obtenerCursos: (_, {input}, ctx, info ) => {
+          console.log(ctx);
           const resultado = cursos.filter( curso => curso.tecnologia === input.tecnologia);
           return resultado;
 
