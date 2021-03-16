@@ -1,5 +1,6 @@
 // Importaciones
 const Usuario = require('../models/Usuario');
+const bcryptjs = require('bcryptjs'); 
 // Resolvers
 // 1. _ objetos retornados por el resolver padre (consultas anidadas)
 // 2. {input} argumentos
@@ -22,7 +23,8 @@ const resolvers = {
 
 
             // Hashear password
-
+            const salt = await bcryptjs.genSalt(10);
+            input.password = await bcryptjs.hash(password, salt);
 
             // Guardar en la base de datos
             try {
