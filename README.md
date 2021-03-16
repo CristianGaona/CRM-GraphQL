@@ -9,4 +9,6 @@ npm install apollo-client apollo-cache-inmemory apollo-link-http react-apollo gr
 ## ORM Mongoose y dotenv (Crear variables de entorno en desarrollo y producción)
 npm i mongoose dotenv
 ## Hashear los password de los usuarios para que no sean visibles (encriptar)
-pm i bcryptjs 
+npm i bcryptjs 
+## Dependencia de JSONWebToken
+npm i jsonwebtoken
