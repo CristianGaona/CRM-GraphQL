@@ -17,7 +17,10 @@ const crearToken =  (usuario, secreta, expiresIn)=>{
 // 4. infotmación (info) sobre la consulta actual
 const resolvers = {
     Query: {
-      obtenerCurso: () => "Hola"
+        obtenerUsuario: async(_, { token }) =>{
+            const usuarioId = await jwt.verify(token, process.env.SECRETA)
+            return usuarioId;
+        }
     },
     Mutation:{
         // Registrar usuarios
