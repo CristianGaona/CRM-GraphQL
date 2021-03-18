@@ -218,7 +218,6 @@ const resolvers = {
             // Eliminar cliente
             await Cliente.findOneAndDelete({ _id: id});
             return "Cliente Eliminado"
-            //await Producto.findOneAndDelete({ _id : id});
         }
 
     }
