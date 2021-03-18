@@ -1,5 +1,6 @@
 // Importaciones
 const Usuario = require('../models/Usuario');
+const Producto = require('../models/Producto');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path: 'variables.env'});
@@ -34,15 +35,14 @@ const resolvers = {
                 throw new Error('El usuario ya esta registrado');
             }
 
-
             // Hashear password
             const salt = await bcryptjs.genSalt(10);
             input.password = await bcryptjs.hash(password, salt);
 
-            // Guardar en la base de datos
+            
             try {
-                const  usuario = new Usuario(input);
-                usuario.save(); // guardarlo
+                const  usuario = new Usuario(input); // Crear usuario
+                usuario.save(); // Guardar en la base de datos
                 return usuario;
             } catch (error) {
                 console.log(error);
@@ -69,6 +69,21 @@ const resolvers = {
             return {
                 token: crearToken(existeUsuario, process.env.SECRETA, '24h')
             }
+        },
+
+        nuevoProducto: async (__, { input }) =>{
+            try {
+
+                //Crear producto
+                const producto = new Producto(input);
+
+                //Almacenar en la bd
+                const resultado = await producto.save();
+                return resultado;
+            } catch (error) {
+                console.log("Error")
+            }
+
         }
 
     }
