@@ -1,6 +1,7 @@
 // Importaciones
 const Usuario = require('../models/Usuario');
 const Producto = require('../models/Producto');
+const Cliente = require('../models/Cliente');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path: 'variables.env'});
@@ -106,6 +107,7 @@ const resolvers = {
             }
 
         },
+        //Ac
         actualizarProducto: async (__, {id, input})=>{
             // Revisar si el producto existe o no
             let producto = await Producto.findById(id);
@@ -117,16 +119,43 @@ const resolvers = {
             producto = await Producto.findOneAndUpdate( { _id: id}, input, { new: true});
             return producto;
         },
-
+        // Eliminación de productos
         eliminarProducto: async (_, { id })=>{
             let producto = await Producto.findById(id);
             if(!producto){
                 throw new Error('Producto no encontrado');
             }
 
-            // Eliminamos
+            // Eliminamos de la BD
             await Producto.findOneAndDelete({ _id : id});
             return "Producto eliminado"
+        },
+        // Registro de clientes
+        nuevoCliente: async (_, { input }, ctx)=>{
+            console.log(ctx)
+            const {dni} = input;
+            
+            // Verificar si el cliente esta registrado
+            const existeCliente = await Cliente.findOne({dni});
+            if(existeCliente){
+                throw new Error ("El cliente ya se encuentra registrado")
+            }
+            const cliente = new Cliente(input);
+
+            //Asignar vendedor
+            cliente.vendedor = ctx.usuario.id;
+
+            //Guardar nuevo registro
+
+            try {
+                
+                const resultado = await cliente.save();
+                return resultado;
+            } catch (error) {
+                console.log("No se ha registrado el cliente")
+            }
+            
+
         }
 
 

@@ -17,15 +17,27 @@ const typeDefs = gql`
 
    type Producto{
        id: ID
-       marca: String,
-       modelo: String,
-       anio: Int,
-       puertas: Int,
-       color: String,
-       transmision: String,
+       marca: String
+       modelo: String
+       anio: Int
+       puertas: Int
+       color: String
+       transmision: String
        existencia: Int
        precio: Float
        creado: String   
+   }
+
+   type Cliente{
+       id: ID
+       nombre: String
+       apellido: String
+       dni: String
+       empresa: String
+       email: String
+       telefono: String
+       creado: String
+       vendedor: ID
    }
 
    #2
@@ -50,6 +62,15 @@ const typeDefs = gql`
        transmision: String!
        existencia: Int!
        precio: Float!
+   },
+
+   input ClienteInput{
+       nombre: String!
+       apellido: String!
+       dni: String
+       empresa: String!
+       email: String!
+       telefono: String
    }
 
    type Query{
@@ -59,6 +80,7 @@ const typeDefs = gql`
        # Productos
        obtenerProductos: [Producto]
        obtenerProducto(id:ID!): Producto
+
    }
    
    #1
@@ -71,6 +93,9 @@ const typeDefs = gql`
        nuevoProducto( input: ProductoInput): Producto
        actualizarProducto(id: ID!, input: ProductoInput): Producto
        eliminarProducto(id: ID!): String
+
+       # Clientes
+       nuevoCliente(input: ClienteInput): Cliente
    }
 `;
 
