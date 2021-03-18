@@ -83,6 +83,7 @@ const typeDefs = gql`
 
        #Clientes
        obtenerClientes: [Cliente]
+       obtenerClienteVendedor:[Cliente]
 
    }
    
@@ -99,6 +100,7 @@ const typeDefs = gql`
 
        # Clientes
        nuevoCliente(input: ClienteInput): Cliente
+       
    }
 `;
 
