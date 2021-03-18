@@ -116,7 +116,19 @@ const resolvers = {
             //Guardar en la BD
             producto = await Producto.findOneAndUpdate( { _id: id}, input, { new: true});
             return producto;
+        },
+
+        eliminarProducto: async (_, { id })=>{
+            let producto = await Producto.findById(id);
+            if(!producto){
+                throw new Error('Producto no encontrado');
+            }
+
+            // Eliminamos
+            await Producto.findOneAndDelete({ _id : id});
+            return "Producto eliminado"
         }
+
 
     }
   };
