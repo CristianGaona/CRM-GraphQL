@@ -60,6 +60,20 @@ const resolvers = {
             } catch (error) {
                 console.log("No se puedo colsutar clientes de la BD")
             }
+        },
+        obtenerCliente: async (_,{ id }, ctx)=>{
+            // Revisar si el cliente existe
+            const cliente = await Cliente.findById(id);
+            if (!cliente){
+                throw new Error('Cliente no encontrado');
+            }
+
+            // Quien lo creo puede verlo
+            if(cliente.vendedor.toString() !== ctx.usuario.id){
+                throw new Error('No esta registrado en la lista de tus clientes')
+            }
+            return cliente;
+
         }
     },
     Mutation:{
