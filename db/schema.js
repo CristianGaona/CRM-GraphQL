@@ -58,6 +58,7 @@ const typeDefs = gql`
 
        # Productos
        obtenerProductos: [Producto]
+       obtenerProducto(id:ID!): Producto
    }
    
    #1
