@@ -19,11 +19,12 @@ const crearToken =  (usuario, secreta, expiresIn)=>{
 // 4. infotmación (info) sobre la consulta actual
 const resolvers = {
     Query: {
+        // Obtener usuario
         obtenerUsuario: async(_, { token }) =>{
             const usuarioId = await jwt.verify(token, process.env.SECRETA)
             return usuarioId;
         },
-
+        // Todos los productos
         obtenerProductos: async ()=>{
             try {
                 const productos = await Producto.find({});
@@ -33,7 +34,7 @@ const resolvers = {
             }
 
         },
-
+        // Producto por Id
         obtenerProducto: async(__, { id })=>{
             // Revisar si el producto existe o no
             const producto = await Producto.findById(id);
@@ -42,6 +43,15 @@ const resolvers = {
             }
 
             return producto;
+        },
+        // Todos los clientes
+        obtenerClientes: async ()=>{
+            try {
+                const clientes = await Cliente.find({});
+                return clientes;
+            } catch (error) {
+                console.log("No se puedo colsutar clientes de la BD")
+            }
         }
     },
     Mutation:{
