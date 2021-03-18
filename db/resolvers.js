@@ -91,6 +91,7 @@ const resolvers = {
             }
         },
 
+       // Registrar Nuevo producto
         nuevoProducto: async (__, { input }) =>{
             try {
 
@@ -104,6 +105,17 @@ const resolvers = {
                 console.log("Error")
             }
 
+        },
+        actualizarProducto: async (__, {id, input})=>{
+            // Revisar si el producto existe o no
+            let producto = await Producto.findById(id);
+            if(!producto){
+                throw new Error('Producto no encontrado');
+            }
+
+            //Guardar en la BD
+            producto = await Producto.findOneAndUpdate( { _id: id}, input, { new: true});
+            return producto;
         }
 
     }

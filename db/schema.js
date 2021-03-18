@@ -41,7 +41,7 @@ const typeDefs = gql`
         password: String!
    }
 
-   input PorductoInput{
+   input ProductoInput{
        marca: String!
        modelo: String!
        anio: Int!
@@ -68,7 +68,8 @@ const typeDefs = gql`
        autenticarUsuario(input: AutenticarInput) : Token
 
        # Productos
-       nuevoProducto( input: PorductoInput): Producto
+       nuevoProducto( input: ProductoInput): Producto
+       actualizarProducto(id: ID!, input: ProductoInput): Producto
    }
 `;
 
