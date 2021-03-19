@@ -92,6 +92,21 @@ const resolvers = {
             } catch (error) {
                 console.log(error);
             }
+        },
+        obtenerPedido: async(_,{id}, ctx)=>{
+            // Si el pedido existe
+            const pedido = await Pedido.findById(id);
+            if(!pedido){
+                throw new Error('Pedido no encontrado')
+            }
+
+            // Solo quien lo creo puede verlo
+
+            if (pedido.vendedor.toString() !== ctx.usuario.id){
+                throw new Error('No tiene las credenciales')
+            }
+            // Retonar el resultado
+            return pedido;
         }
     },
     Mutation:{

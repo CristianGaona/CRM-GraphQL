@@ -123,6 +123,7 @@ const typeDefs = gql`
        # Pedidos
        obtenerPedidos : [Pedido]
        obtenerPedidosProVendedor:[Pedido]
+       obtenerPedido(id:ID!): Pedido
    }
    
    #1
