@@ -292,6 +292,49 @@ const resolvers = {
             // Guardar en la base de datos
             const resultado = await nuevoPedido.save();
             return resultado;
+        },
+        actualizarPedido: async (_, {id, input}, ctx)=>{
+
+            const { cliente } = input;
+
+            // Si el pedido existe
+            const existePedido = await Pedido.findById(id);
+            if (!existePedido){
+                throw new Error("El pedido no existe");
+            }
+
+            //Si el cliente existe
+            const existeCliente = await Cliente.findById(cliente);
+            if (!existeCliente){
+                throw new Error("El pedido no existe");
+            }
+
+            // Si el cliente y pedido pertenecen al vendedor
+            if(existeCliente.vendedor.toString() !==ctx.usuario.id){
+                throw new Error ('No tiene las credenciales');
+            }
+
+            // Revisar el Stock
+            if (input.pedido){
+                for await (const auto of input.pedido){
+                    const { id } = auto;
+                    const producto = await Producto.findById(id);
+                    if(auto.cantidad > producto.existencia){
+                        console.log("Entro")
+                        throw new Error(`El Vehiculo: ${producto.marca}-${producto.modelo} excede la cantidad disponible`);
+                    }else{
+                        // Restar la cantidad
+                        producto.existencia = producto.existencia - auto.cantidad;
+                        await producto.save();
+                    }
+                    
+                };
+            }
+            
+
+            //Guardar el pedido
+            const resultado = await Pedido.findOneAndUpdate({_id: id}, input, { new: true});
+            return resultado;
         }
 
     }
