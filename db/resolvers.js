@@ -12,7 +12,7 @@ require('dotenv').config({path: 'variables.env'});
 const crearToken =  (usuario, secreta, expiresIn)=>{
     console.log(usuario);
     const { id, email, nombre, apellido} = usuario;
-    return jwt.sign({id}, secreta, { expiresIn })
+    return jwt.sign({id, nombre, apellido}, secreta, { expiresIn })
 }
 // Resolvers
 // 1. _ objetos retornados por el resolver padre (consultas anidadas)
@@ -22,9 +22,12 @@ const crearToken =  (usuario, secreta, expiresIn)=>{
 const resolvers = {
     Query: {
         // Obtener usuario
-        obtenerUsuario: async(_, { token }) =>{
-            const usuarioId = await jwt.verify(token, process.env.SECRETA)
-            return usuarioId;
+        obtenerUsuario: async(_,{}, ctx) =>{
+            //const usuarioId = await jwt.verify(token, process.env.SECRETA)
+            //return usuarioId;
+            console.log("aAQUI")
+            console.info(ctx.usuario)
+            return ctx.usuario;
         },
         // Todos los productos
         obtenerProductos: async ()=>{
@@ -246,6 +249,7 @@ const resolvers = {
         },
         // Eliminación de productos
         eliminarProducto: async (_, { id })=>{
+            // verificar producto
             let producto = await Producto.findById(id);
             if(!producto){
                 throw new Error('Producto no encontrado');
